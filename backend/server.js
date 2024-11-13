@@ -150,35 +150,13 @@ app.put('/api/profile/update', authenticateJWT, (req, res) => {
     );
 });
 
-// Fetch Profile
+
 app.get('/api/profile/me', authenticateJWT, (req, res) => {
     db.get(`SELECT id, name, email FROM users WHERE id = ?`, [req.user.id], (err, user) => {
         if (err) return res.status(400).json({ message: 'Error fetching profile', error: err });
         res.json(user);
     });
 });
-
-/*
-
-const express = require('express');
-const cors = require("cors"); // Import CORS
-const bodyParser = require("body-parser");
-
-
-
-const authRoutes = require('./routes/authRoutes');
-const todoRoutes = require('./routes/todoRoutes');
-const profileRoutes = require('./routes/profileRoutes');
-const db = require('./database');
- 
-const app = express();
-app.use(cors()); // Enable CORS for all routes
-app.use(bodyParser.json());
-
-app.use('/api/auth', authRoutes);
-app.use('/api/todos', todoRoutes);
-app.use('/api/profile', profileRoutes);
-*/
 
 
 const PORT = process.env.PORT || 5000;
