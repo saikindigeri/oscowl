@@ -12,9 +12,9 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 
 const DB_PATH = path.resolve(__dirname, 'todos.db');
-const JWT_SECRET = 'your_jwt_secret';  
+const SECRET = 'your_jwt_secret';
 app.use(cors());
-const router = express.Router();
+
 
 
 const authenticateJWT = (req, res, next) => {
