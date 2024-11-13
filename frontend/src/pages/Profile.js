@@ -13,7 +13,7 @@ function Profile() {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/profile/me", {
+        const response = await axios.get("https://oscowl-4.onrender.com/api/profile/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setName(response.data.name);
@@ -36,7 +36,7 @@ function Profile() {
     e.preventDefault();
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/profile/update",
+        "https://oscowl-4.onrender.com/api/profile/update",
         { name, email },
         { headers: { Authorization: `Bearer ${token}` } }
       );

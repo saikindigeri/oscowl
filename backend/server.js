@@ -15,6 +15,8 @@ const DB_PATH = path.resolve(__dirname, 'todos.db');
 const JWT_SECRET = 'your_jwt_secret';  
 app.use(cors());
 const router = express.Router();
+
+
 const authenticateJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'Access denied' });
@@ -61,7 +63,7 @@ app.use(cors());
 app.use(bodyParser.json());
  
 
-router.post('/api/auth/signup', (req, res) => {
+app.post('/api/auth/signup', (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
     const id = uuidv4();
@@ -76,7 +78,7 @@ router.post('/api/auth/signup', (req, res) => {
 });
 
 // Login route
-router.post('/api/auth/login', (req, res) => {
+app.post('/api/auth/login', (req, res) => {
     const { email, password } = req.body;
     db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, user) => {
         if (err || !user || !bcrypt.compareSync(password, user.password)) {
@@ -88,7 +90,7 @@ router.post('/api/auth/login', (req, res) => {
     });
 });
 
-router.post('/api/todos/', authenticateJWT, (req, res) => {
+app.post('/api/todos/', authenticateJWT, (req, res) => {
     const { title, description, status } = req.body;
     const id = uuidv4();
     const user_id = req.user.id;
@@ -103,7 +105,7 @@ router.post('/api/todos/', authenticateJWT, (req, res) => {
 });
 
 // Read Todos
-router.get('/api/todos/', authenticateJWT, (req, res) => {
+app.get('/api/todos/', authenticateJWT, (req, res) => {
     db.all(`SELECT * FROM todos WHERE user_id = ?`, [req.user.id], (err, rows) => {
         if (err) return res.status(400).json({ message: 'Error fetching todos', error: err });
         res.json(rows);
@@ -111,7 +113,7 @@ router.get('/api/todos/', authenticateJWT, (req, res) => {
 });
 
 // Update Todo
-router.put('/api/todos/:id', authenticateJWT, (req, res) => {
+app.put('/api/todos/:id', authenticateJWT, (req, res) => {
     const { title, description, status } = req.body;
     const { id } = req.params;
 
@@ -125,7 +127,7 @@ router.put('/api/todos/:id', authenticateJWT, (req, res) => {
 });
 
 // Delete Todo
-router.delete('/api/todos/:id', authenticateJWT, (req, res) => {
+app.delete('/api/todos/:id', authenticateJWT, (req, res) => {
     const { id } = req.params;
 
     db.run(`DELETE FROM todos WHERE id = ? AND user_id = ?`, [id, req.user.id], function(err) {
@@ -134,7 +136,7 @@ router.delete('/api/todos/:id', authenticateJWT, (req, res) => {
     });
 });
 
-router.put('/api/profile/update', authenticateJWT, (req, res) => {
+app.put('/api/profile/update', authenticateJWT, (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = password ? bcrypt.hashSync(password, 10) : null;
 
@@ -149,7 +151,7 @@ router.put('/api/profile/update', authenticateJWT, (req, res) => {
 });
 
 // Fetch Profile
-router.get('/api/profile/me', authenticateJWT, (req, res) => {
+app.get('/api/profile/me', authenticateJWT, (req, res) => {
     db.get(`SELECT id, name, email FROM users WHERE id = ?`, [req.user.id], (err, user) => {
         if (err) return res.status(400).json({ message: 'Error fetching profile', error: err });
         res.json(user);

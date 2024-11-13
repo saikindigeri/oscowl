@@ -13,7 +13,7 @@ function Signup({ setToken }) {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/signup", {
+      const response = await axios.post("https://oscowl-4.onrender.com/api/auth/signup", {
         name,
         email,
         password,

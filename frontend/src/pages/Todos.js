@@ -23,7 +23,7 @@ function Todos() {
   
   const fetchTodos = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/todos/");
+      const response = await axios.get("https://oscowl-4.onrender.com/api/todos/");
       setTodos(response.data);
     } catch (error) {
       console.error("Failed to fetch todos", error);
@@ -39,7 +39,7 @@ function Todos() {
     if (!newTask || !newDescription) return;
 
     try {
-      const response = await axios.post("http://localhost:5000/api/todos/", {
+      const response = await axios.post("https://oscowl-4.onrender.com/api/todos/", {
         title: newTask,
         description: newDescription,
         status: "pending",
@@ -62,7 +62,7 @@ function Todos() {
   const saveEdit = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/todos/${editTaskId}`,
+        `https://oscowl-4.onrender.com/api/todos/${editTaskId}`,
         {
           title: editTitle,
           description: editDescription,
@@ -86,7 +86,7 @@ function Todos() {
 
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/todos/${id}`);
+      await axios.delete(`https://oscowl-4.onrender.com/api/todos/${id}`);
       setTodos(todos.filter((todo) => todo.id !== id));
     } catch (error) {
       console.error("Failed to delete todo", error);
