@@ -186,7 +186,8 @@
   }
   
   .header-logout {
-    background-color: #ff4d4d;
+    background-color: black;
+ 
     border: none;
     color: #ffffff;
     padding: 0.5rem 1rem;

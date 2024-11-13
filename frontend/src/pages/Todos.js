@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Todos.css';
 import { CgProfile } from "react-icons/cg";
+import { IoLogOut } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 function Todos() {
@@ -101,7 +102,7 @@ function Todos() {
 
 <nav className="header">
     <h2 className="header-title">Todo App</h2>
-    {token && <button className="header-logout" onClick={handleLogout}>Logout</button>}
+    {token && <button className="header-logout" onClick={handleLogout}>< IoLogOut /></button>}
     <button className="profile-button" onClick={handleProfile}><CgProfile /></button>
   </nav>
     <div className="todos-container">
